@@ -1,11 +1,16 @@
 package lis;
 
+import input.PerformanceTest;
+import input.TestGenerator;
+
 public class Bruteforce {
 
 	public static void main(String[] args) {
 		// test case
-		int[] testSet = {5, 6, 7, 1, 2, 7, 3, 8, 10};
+		int[] testSet = TestGenerator.Gen(150);
+		PerformanceTest.startCheck();
 		System.out.println(findLIS(testSet));
+		PerformanceTest.endCheck();
 	}
 	
 	public static int findLIS(int[] set) {
