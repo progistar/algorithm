@@ -9,7 +9,7 @@ public class BinarySearch {
 
 	public static void main(String[] args) {
 		// test case
-		int[] testSet = TestGenerator.Gen(150);
+		int[] testSet = TestGenerator.Gen(100000);
 		PerformanceTest.startCheck();
 		System.out.println(findLIS(testSet));
 		PerformanceTest.endCheck();
