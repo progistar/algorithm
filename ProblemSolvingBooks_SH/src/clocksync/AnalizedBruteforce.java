@@ -1,7 +1,5 @@
 package clocksync;
 
-import java.util.Hashtable;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 import input.PerformanceTest;
@@ -24,47 +22,36 @@ public class AnalizedBruteforce {
 		}
 		scan.close();
 		PerformanceTest.startCheck();
-		//TODO: Queue (BFS)
+		//TODO: DFS
 		
 		for(int i=0; i<numberOfCases; i++) {
-			System.out.println(runBFS(clocks[i], syncInfo));
+			System.out.println(runDFS(clocks[i], syncInfo, 0, 0));
 		}
 		
 		PerformanceTest.endCheck();
 	}
 	
-	public static int runBFS(Integer[] clocks, Integer[][] syncInfo) {
-		LinkedList<Integer[]> queue = new LinkedList<Integer[]>();
-		queue.add(clocks);
+	public static int runDFS(Integer[] clocks, Integer[][] syncInfo, int depth, int sync) {
+		boolean isRight = true;
+		for(int i=0; i<clocks.length; i++) if(clocks[i] != 12) isRight = false;
+		if(isRight) return depth;
+		if(sync == syncInfo.length) return -1;
 		
-		int depth = 0;
-		while(!queue.isEmpty()) {
-			clocks = queue.pollFirst();
-			
+		
+		//TODO: Just Pass
+		int ans = runDFS(clocks.clone(), syncInfo, depth, sync+1);
+		if(ans != -1) return ans;
+		
+		for(int i=0; i<3; i++) {
 			//TODO: Rotation
-			int sizeOfSyncs = syncInfo.length;
-			for(int i=0; i<sizeOfSyncs; i++) {
-				int size = syncInfo[i].length;
-				Integer[] newClock = clocks.clone();
-				for(int j=0; j<size; j++) newClock[syncInfo[i][j]] = newClock[syncInfo[i][j]]+3 > 12 ? 3 : newClock[syncInfo[i][j]] + 3;
-				queue.addLast(newClock);
-			}
-			
-			//TODO: Is Right? & Memorize
-			boolean isRight = true;
-			for(int i=0; i<clocks.length; i++) {
-				if(clocks[i] != 12) {
-					isRight = false;
-					break;
-				}
-			}
-			
-			if(isRight) return depth;
 			depth++;
+			for(int j=0; j<syncInfo[sync].length; j++) clocks[syncInfo[sync][j]] = clocks[syncInfo[sync][j]]+3 > 12 ? 3 : clocks[syncInfo[sync][j]]+3;
+			ans = runDFS(clocks.clone(), syncInfo, depth, sync+1);
+			if(ans != -1) return ans;
 		}
 		
-		return 0;
-	}
+		return -1;
+	} 
 	
 	
 	public static Integer[][] initSyncInfo() {
