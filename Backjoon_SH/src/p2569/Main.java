@@ -1,13 +1,41 @@
 package p2569;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class Main {
 	
+	int[][] memorization = new int[10001][10001];
+	public static int[] inputs = null;
+	public static Integer[] inputIndex = new Integer[1001];
 	
 	public static void main(String[] args) {
-		System.out.println(bruteforce(readInput()));
+		readInput();
+		Comparator<Integer> myComparator
+        = new Comparator<Integer>() { 
+        	public int compare(Integer o1, Integer o2) {
+        		if(inputs[o1] < inputs[o2]) return 1;
+        		if(inputs[o1] > inputs[o2]) return -1;
+        		return 0;
+        		}
+        	};
+		Arrays.sort(inputIndex, myComparator);
+		
+	}
+
+	
+	//## Memorizataion
+	public static int BFS(int[] curStates, Integer[] ans) {
+		boolean isAns = true;
+		for(int i=1; i<curStates.length; i++) if(curStates[i-1] > curStates[i]) {
+			isAns = false; break;
+		}
+		if(isAns) return 0;
+		
+		for(int i=0; i<curStates.length; i++) {
+		}
 	}
 	
 	//## Bruteforce Strategy
@@ -72,7 +100,7 @@ public class Main {
 	}
 	
 	public static int[] readInput() {
-		int[] inputs = null;
+		inputs = null;
 		
 		Scanner scan = new Scanner(System.in);
 		
