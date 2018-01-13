@@ -1,36 +1,30 @@
 package packing;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 import input.PerformanceTest;
 
-public class DivideConquer {
+public class Memorization {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		Carrier[] carriers = readInput();
 		PerformanceTest.startCheck();
 		for(int i=0; i<carriers.length; i++) {
-			System.out.println(decision(carriers[i], 0, 0));
+			System.out.println(packing(carriers[i], carriers[i].allowable, 0, new int[1001][100]));
 		}
 		PerformanceTest.endCheck();
 	}
 	
-	public static int decision(Carrier carrier, int curItem, int curVolume) {
-		if(curItem == carrier.items.length) return 0;
+	public static int packing(Carrier carrier, int available, int item, int[][] cache) {
+		if(item == carrier.items.length) return 0;
+		int ret = cache[available][item];
+		if(ret != 0) return ret;
 		
-		// Keep it
-		int keep = 0;
-		if(!(curVolume + carrier.items[curItem].volume > carrier.allowable)) 
-			keep += decision(carrier, curItem+1, curVolume + carrier.items[curItem].volume) + carrier.items[curItem].priority;
-		
-		// Discard it
-		int discard = 0;
-		discard += decision(carrier, curItem+1, curVolume);
-		
-		int maxPriority = Math.max(keep, discard);
-		
-		return maxPriority;
+		ret = packing(carrier, available, item+1, cache);
+		if(available >= carrier.items[item].volume) 
+		ret = Math.max(ret, packing(carrier, available-carrier.items[item].volume, item+1, cache) + carrier.items[item].priority);
+		cache[available][item] = ret;
+		return ret;
 	}
 	
 	public static Carrier[] readInput() {
