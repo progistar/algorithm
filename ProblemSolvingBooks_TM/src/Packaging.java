@@ -8,12 +8,13 @@ public class Packaging {
 	String[] item;
 	int[] volume;
 	int[] priority;
-	
+	int[][] cache;   //volume, item
 	int max=0;
 	String itemList;
 	
 	public void input() {
 		Scanner sc = new Scanner(System.in);
+		cache = new int[1000][100];
 		num = sc.nextInt();
 		w = sc.nextInt();
 		item = new String[num];
@@ -32,30 +33,30 @@ public class Packaging {
 	}
 	
 	public void solve(int pos, int pSum, int vSum, String list) {
-
 		if(pos>=num) {
 			return;
 		}
-		
 		int vol = volume[pos];
 		int pri = priority[pos];
-		
 		if(vSum> w) {
-			//System.out.println("max : "+ (pSum+pri));
-			//System.out.println("list : "+ list+pos);
 			return;
 		}
 		
+		//if(cache[vSum][pos] != -1) {
+		//	cache[vSum][pos] = pSum;
+		//	max = pSum;
+		//	itemList = list;
+		//	return;
+		//}
+		
 		if(pSum > max) {
+			cache[vSum][pos] = pSum;
 			max = pSum;
 			itemList = list;
 		}		
-		
 		solve(pos+1, pSum+pri, vSum+vol, list+pos);
 		solve(pos+1, pSum, vSum, list);
-		
 	}
-
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Packaging p = new Packaging();
