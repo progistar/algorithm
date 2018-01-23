@@ -1,6 +1,5 @@
 package p2133;
 
-import java.util.Hashtable;
 import java.util.Scanner;
 
 public class Main {
