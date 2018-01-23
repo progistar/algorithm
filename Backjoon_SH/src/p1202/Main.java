@@ -28,7 +28,7 @@ class Jewel implements Comparable<Jewel> {
 public class Main {
 
 	public static int[] bags = null;
-	public static boolean[] used = null;
+	public static int[] used = null;
 	
 	public static void main(String[] args) {
 		Jewel[] jewels = readInput();
@@ -39,9 +39,15 @@ public class Main {
 	public static int maxGreedy(Jewel[] jewels) {
 		int sum = 0;
 		int len = jewels.length;
+		int get = 0;
 		
 		for(int i=0; i<len; i++) {
-			if(findProperBag(jewels[i].weight)) sum += jewels[i].value;
+			if(findProperBag(jewels[i].weight)) {
+				sum += jewels[i].value;
+				get++;
+			}
+			
+			if(get == bags.length-1) break;
 		}
 		
 		return sum;
@@ -67,12 +73,14 @@ public class Main {
 		}
 		
 		while(true) {
-			if(!used[right]) {
+			if(used[right] == 0) {
 				isAns = true;
-				used[right] = true;
+				used[right] = right;
 				break;
+			}else {
+				right = ++used[right];
 			}
-			if(++right == bags.length) break;
+			if(right >= bags.length) break;
 		}
 		
 		return isAns;
@@ -88,7 +96,7 @@ public class Main {
 		
 		jewels = new Jewel[sizeOfJewels];
 		bags = new int[sizeOfBags+1];
-		used = new boolean[sizeOfBags+1];
+		used = new int[sizeOfBags+1];
 		
 		for(int i=0; i<sizeOfJewels; i++) {
 			int weight = scan.nextInt();
