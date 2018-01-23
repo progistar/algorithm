@@ -13,11 +13,11 @@ class Jewel implements Comparable<Jewel> {
 	}
 
 	@Override
-	//## Sorting by weight
+	//## Sorting by values
 	public int compareTo(Jewel jewel) {
 		
-		if(this.weight > jewel.weight) return 1;
-		if(this.weight < jewel.weight) return -1;
+		if(this.value > jewel.value) return -1;
+		if(this.value < jewel.value) return 1;
 		
 		return 0;
 	}
@@ -28,6 +28,7 @@ class Jewel implements Comparable<Jewel> {
 public class Main {
 
 	public static int[] bags = null;
+	public static boolean[] used = null;
 	
 	public static void main(String[] args) {
 		Jewel[] jewels = readInput();
@@ -37,23 +38,44 @@ public class Main {
 	
 	public static int maxGreedy(Jewel[] jewels) {
 		int sum = 0;
-		for(int i=0; i<bags.length; i++) {
-			int maxIndex = -1;
-			for(int j=0; j<jewels.length; j++) {
-				if(jewels[j].value == -1) continue;
-				if(jewels[j].weight < bags[i]) {
-					if(maxIndex == -1) maxIndex = j;
-					else if(jewels[j].value > jewels[maxIndex].value) maxIndex = j;
-				}else break;
-			}
-			
-			if(maxIndex != -1) {
-				sum += jewels[maxIndex].value;
-				jewels[maxIndex].value = -1;
-			}
+		int len = jewels.length;
+		
+		for(int i=0; i<len; i++) {
+			if(findProperBag(jewels[i].weight)) sum += jewels[i].value;
 		}
 		
 		return sum;
+	}
+	
+	public static boolean findProperBag(int jewelWeight) {
+		// binary search
+		int left = 0;
+		int right = bags.length - 1;
+		boolean isAns = false;
+		
+		int mid = 0;
+		while(true) {
+			if((right-left) < 2) break;
+			mid = (left + right) / 2;
+			if(bags[mid] < jewelWeight) left = mid+1;
+			else if(bags[mid] > jewelWeight) right = mid;
+			else {
+				right = mid;
+				break;
+			}
+			
+		}
+		
+		while(true) {
+			if(!used[right]) {
+				isAns = true;
+				used[right] = true;
+				break;
+			}
+			if(++right == bags.length) break;
+		}
+		
+		return isAns;
 	}
 	
 	public static Jewel[] readInput() {
@@ -65,7 +87,8 @@ public class Main {
 		int sizeOfBags = scan.nextInt();
 		
 		jewels = new Jewel[sizeOfJewels];
-		bags = new int[sizeOfBags];
+		bags = new int[sizeOfBags+1];
+		used = new boolean[sizeOfBags+1];
 		
 		for(int i=0; i<sizeOfJewels; i++) {
 			int weight = scan.nextInt();
@@ -73,7 +96,8 @@ public class Main {
 			jewels[i] = new Jewel(weight, value);
 		}
 		
-		for(int i=0; i<sizeOfBags; i++) {
+		bags[0] = 0;
+		for(int i=1; i<bags.length; i++) {
 			bags[i] = scan.nextInt();
 		}
 		
