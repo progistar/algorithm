@@ -16,8 +16,8 @@ class Jewel implements Comparable<Jewel> {
 	//## Sorting by values
 	public int compareTo(Jewel jewel) {
 		
-		if(this.value > jewel.value) return -1;
-		if(this.value < jewel.value) return 1;
+		if(this.weight > jewel.weight) return 1;
+		if(this.weight < jewel.weight) return -1;
 		
 		return 0;
 	}
@@ -42,48 +42,10 @@ public class Main {
 		int get = 0;
 		
 		for(int i=0; i<len; i++) {
-			if(findProperBag(jewels[i].weight)) {
-				sum += jewels[i].value;
-				get++;
-			}
 			
-			if(get == bags.length-1) break;
 		}
 		
 		return sum;
-	}
-	
-	public static boolean findProperBag(int jewelWeight) {
-		// binary search
-		int left = 0;
-		int right = bags.length - 1;
-		boolean isAns = false;
-		
-		int mid = 0;
-		while(true) {
-			if((right-left) < 2) break;
-			mid = (left + right) / 2;
-			if(bags[mid] < jewelWeight) left = mid+1;
-			else if(bags[mid] > jewelWeight) right = mid;
-			else {
-				right = mid;
-				break;
-			}
-			
-		}
-		
-		while(true) {
-			if(used[right] == 0) {
-				isAns = true;
-				used[right] = right;
-				break;
-			}else {
-				right = ++used[right];
-			}
-			if(right >= bags.length) break;
-		}
-		
-		return isAns;
 	}
 	
 	public static Jewel[] readInput() {
@@ -95,8 +57,8 @@ public class Main {
 		int sizeOfBags = scan.nextInt();
 		
 		jewels = new Jewel[sizeOfJewels];
-		bags = new int[sizeOfBags+1];
-		used = new int[sizeOfBags+1];
+		bags = new int[sizeOfBags];
+		used = new int[sizeOfBags];
 		
 		for(int i=0; i<sizeOfJewels; i++) {
 			int weight = scan.nextInt();
@@ -104,8 +66,7 @@ public class Main {
 			jewels[i] = new Jewel(weight, value);
 		}
 		
-		bags[0] = 0;
-		for(int i=1; i<bags.length; i++) {
+		for(int i=0; i<bags.length; i++) {
 			bags[i] = scan.nextInt();
 		}
 		
