@@ -19,10 +19,14 @@ public class Main {
 		for(int i=0; i<inputLen; i++) inputs[i] = Integer.parseInt(BR.readLine());
 		BR.close();
 		for(int i=0; i<inputLen; i++)
-			System.out.println(maxCycle(inputs[i], subject));
+			System.out.println(bruteForce(inputs[i], subject));
 	}
 	
-	public static int maxCycle(int len, String genome) {
+	/*public static int maxCycles(int len, String genome) {
+		
+	}*/
+	
+	public static int bruteForce(int len, String genome) {
 		Hashtable<String, Node> tagNumber = new Hashtable<String, Node>();
 		int genomeLen = genome.length() -len + 1;
 		for(int i=0; i<genomeLen; i++) {
