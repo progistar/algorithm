@@ -20,9 +20,19 @@ public class Main {
 		}
 		
 		int pivot = preorder[0];
+		
+		// PRE: 27 16 9 12 54 36 72
+		// IN-: 9 12 16 27 36 54 72
 		for(int i = 0; i<preorder.length; i++) {
 			if(inorder[i] == pivot) {
+				// PRE: [27] 16 9 12      54 36 72
+				// IN-:      9 12 16 [27] 36 54 72
+				//            LEFT         RIGHT
+				// Print LEFT -> Print RIGHT -> Print Pivot
+				
 				//LEFT
+				// PRE: 16 9 12
+				// IN-: 9 12 16
 				int[] preLeft = new int[i];
 				int[] inLeft = new int[i];
 				
@@ -32,7 +42,10 @@ public class Main {
 				}
 				
 				getPostorder(preLeft, inLeft);
+				
 				//RIGHT
+				// PRE: 54 36 72
+				// IN-: 35 54 72
 				int[] preRight = new int[preorder.length - i - 1];
 				int[] inRight = new int[preorder.length - i - 1];
 				
@@ -41,7 +54,6 @@ public class Main {
 					inRight[j] = inorder[i+j+1];
 					
 				}
-				
 				getPostorder(preRight, inRight);
 				System.out.print(pivot+" ");
 				break;
