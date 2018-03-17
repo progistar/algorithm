@@ -46,6 +46,25 @@ public class Main {
 		return root;
 	}
 	
+	/**
+	 * Distance: It is based on the number of node given path.
+	 * Longest Depth: The maximum distance from parent node to each child node.
+	 * maxDist: The maximum distance from node to node.
+	 * 
+	 * For example,
+	 * 
+	 * A ----- B ----- C
+	 *   ----- D ----- E ----- F
+	 * 
+	 * The longest depth for A is 4 (A-D-E-F).
+	 * The maxDist is 6 (F-E-D-A-B-C: F to C)
+	 * 
+	 * Caution!
+	 * In this problem, the maxDist is based on edge so (maxDist-1) is the real answer in this problem.
+	 * 
+	 * @param node
+	 * @return
+	 */
 	public static int postorder(Node node) {
 		int longestDepth = 0;
 		int longsetIndex = 0;
