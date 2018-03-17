@@ -28,7 +28,9 @@ public class Main {
 				// PRE: [27] 16 9 12      54 36 72
 				// IN-:      9 12 16 [27] 36 54 72
 				//            LEFT         RIGHT
-				// Print LEFT -> Print RIGHT -> Print Pivot
+				
+				
+				//** Print LEFT -> Print RIGHT -> Print Pivot **
 				
 				//LEFT
 				// PRE: 16 9 12
@@ -45,7 +47,7 @@ public class Main {
 				
 				//RIGHT
 				// PRE: 54 36 72
-				// IN-: 35 54 72
+				// IN-: 36 54 72
 				int[] preRight = new int[preorder.length - i - 1];
 				int[] inRight = new int[preorder.length - i - 1];
 				
