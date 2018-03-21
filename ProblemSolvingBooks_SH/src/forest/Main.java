@@ -90,7 +90,7 @@ public class Main {
 	public static void insertNode(Node parent, Node child) {
 		for(int i=0; i<parent.inner.size(); i++) {
 			Node target = parent.inner.get(i);
-			int diff = Math.max(Math.abs(target.x - child.x), Math.abs(target.y - child.y));
+			int diff = (int)Math.sqrt(Math.pow((target.x - child.x),2) + Math.pow((target.y - child.y),2));
 			if(diff < target.radius) {
 				insertNode(target, child);
 				return;
