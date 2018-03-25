@@ -23,6 +23,7 @@ class Route implements Comparable<Route>{
 	ArrayList<Route> connections = new ArrayList<Route>();
 	ArrayList<Double> noises = new ArrayList<Double>();
 	double currentNoise = Double.MAX_VALUE;
+	boolean isVisited = false;
 	
 	@Override
 	public int compareTo(Route o) {
@@ -58,10 +59,12 @@ public class Routing {
 			// Relax
 			int sizeOfChildren = curRoute.connections.size();
 			double curNoise = curRoute.currentNoise;
+			curRoute.isVisited = true;
 
 			for(int i=0; i<sizeOfChildren; i++) {
-				if(curRoute.connections.get(i).currentNoise > curRoute.noises.get(i) + curNoise) {
+				if(!curRoute.connections.get(i).isVisited && curRoute.connections.get(i).currentNoise > curRoute.noises.get(i) + curNoise) {
 					curRoute.connections.get(i).currentNoise = curRoute.noises.get(i) + curNoise;
+					curRoute.connections.get(i).isVisited = true;
 					PQ.add(curRoute.connections.get(i));
 				}
 			}
