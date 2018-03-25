@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
@@ -62,10 +61,11 @@ public class Routing {
 			curRoute.isVisited = true;
 
 			for(int i=0; i<sizeOfChildren; i++) {
-				if(!curRoute.connections.get(i).isVisited && curRoute.connections.get(i).currentNoise > curRoute.noises.get(i) + curNoise) {
+				if(curRoute.connections.get(i).currentNoise > curRoute.noises.get(i) + curNoise) {
 					curRoute.connections.get(i).currentNoise = curRoute.noises.get(i) + curNoise;
+					if(!curRoute.connections.get(i).isVisited) PQ.add(curRoute.connections.get(i));
+
 					curRoute.connections.get(i).isVisited = true;
-					PQ.add(curRoute.connections.get(i));
 				}
 			}
 			
