@@ -1,3 +1,4 @@
+package codejam.code;
 import java.util.Scanner;
 
 public class TrianglePath {

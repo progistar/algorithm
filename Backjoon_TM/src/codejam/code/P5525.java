@@ -1,3 +1,4 @@
+package codejam.code;
 
 public class P5525 {
 
